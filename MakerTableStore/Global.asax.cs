@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 
+
 namespace MakerTableStore
 {
     public class Global : HttpApplication
