@@ -53,8 +53,23 @@ namespace MakerTableStore
                         LoggedIn = reader.GetInt32(1);
                         ErrorMessage.Text = "Logged In:  " + LoggedIn + "  UserID: " + UserID;
                         reader.Close();
-                        connection.Close();
+                        
                     }
+                        StringBuilder sb1 = new StringBuilder();
+                        sb.Append("SELECT CartID FROM [MakerTableDB].[dbo].[ShoppingCart]");
+                        sb.Append("WHERE @UserID = UserID and ItemID=(SELECT max(ItemID);");
+                        String sql1 = sb1.ToString();
+                        using (SqlCommand command = new SqlCommand(sql1, connection))
+                        {
+                            command.Parameters.AddWithValue("@UserID", UserID);
+                            SqlDataReader reader = command.ExecuteReader();
+                            reader.Read();
+                            CartID = reader.GetInt32(0);
+                            Debug.WriteLine("CartId:  " + CartID);
+                            reader.Close();
+
+                        }
+                        connection.Close();
                 }
             }
             catch (SqlException e2)
